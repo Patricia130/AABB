@@ -3,12 +3,12 @@ workflows:
     name: To Chegando Cliente - Build Release
     instance_type: mac_mini_m1
     max_build_duration: 60
+
     environment:
       vars:
         GRADLE_OPTS: "-Xmx4096m"
       java: 17
-      android:
-        sdk: 34
+      sdk: 34
 
     scripts:
       - name: 🔍 Localizar gradlew automaticamente
