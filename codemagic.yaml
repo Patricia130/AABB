@@ -1,43 +1,41 @@
-# codemagic.yaml
-#
-# Configuração completa para build de um projeto Android Nativo no Codemagic.
-# Este workflow gera os artefatos APK e AAB em modo release.
-
 workflows:
   android-native-release:
-    name: Tô Chegando Cliente - Build Release
+    name: To Chegando Cliente - Build Release
     instance_type: mac_mini_m1
     max_build_duration: 60
-
     environment:
       vars:
-        JAVA_VERSION: 17
-        ANDROID_SDK_VERSION: 34
+        GRADLE_OPTS: "-Xmx4096m"
+      java: 17
+      android:
+        sdk: 34
 
     scripts:
-      - name: ⚙️ Configurar permissões do Gradle Wrapper
-        script: | 
-          echo "✅ Concedendo permissão de execução para o gradlew..."
-          chmod +x ./gradlew
+      - name: 🔍 Localizar gradlew automaticamente
+        script: |
+          echo "🔎 Procurando o gradlew..."
+          GRADLEW_PATH=$(find . -type f -name "gradlew" | head -n 1)
+          echo "✅ Encontrado em: $GRADLEW_PATH"
+          chmod +x "$GRADLEW_PATH"
 
-      - name: 🧹 Limpar o projeto (Clean)
-        script: | 
-          echo "⚙️ Executando a tarefa 'clean' do Gradle..."
-          ./gradlew clean
+      - name: 🧹 Limpar projeto
+        script: |
+          echo "🧹 Executando clean..."
+          $GRADLEW_PATH clean
 
-      - name: 📦 Gerar APK de Release
-        script: | 
-          echo "⚙️ Compilando e gerando o APK de release..."
-          ./gradlew assembleRelease
+      - name: 📦 Build Release APK
+        script: |
+          echo "⚙️ Gerando APK de release..."
+          $GRADLEW_PATH assembleRelease
 
-      - name: 📦 Gerar AAB de Release (Bundle)
-        script: | 
-          echo "⚙️ Compilando e gerando o AAB de release..."
-          ./gradlew bundleRelease
+      - name: 📦 Build Release AAB
+        script: |
+          echo "⚙️ Gerando AAB de release..."
+          $GRADLEW_PATH bundleRelease
 
     artifacts:
-      - "app/build/outputs/apk/release/app-release.apk"
-      - "app/build/outputs/bundle/release/app-release.aab"
+      - app/build/outputs/apk/release/*.apk
+      - app/build/outputs/bundle/release/*.aab
 
     publishing:
       email:
