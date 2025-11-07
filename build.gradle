@@ -1,19 +1,19 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.0'
+    ext.kotlin_version = '1.8.22' // atualizar para Kotlin moderno
 
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" } // adiciona suporte para libs populares
+        maven { url "https://jitpack.io" } // suporte a libs populares
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:8.1.0' // AGP atualizado
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.google.gms:google-services:4.3.14'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
+        classpath 'com.google.gms:google-services:4.4.0' // google-services atualizado
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9' // crashlytics atualizado
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -22,13 +22,14 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" } // adiciona suporte para libs tipo compressor, ccp, etc.
+        maven { url "https://jitpack.io" }
         flatDir {
-            dirs 'libs'
+            dirs 'libs' // suporte a libs locais em .jar/.aar
         }
     }
 }
 
+// Tarefa para limpar build
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
