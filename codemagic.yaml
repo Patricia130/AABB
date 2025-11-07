@@ -14,24 +14,28 @@ workflows:
       - name: 🔍 Localizar gradlew automaticamente
         script: |
           echo "🔎 Procurando o gradlew..."
-          GRADLEW_PATH=$(find . -type f -name "gradlew" | head -n 1)
-          echo "✅ Encontrado em: $GRADLEW_PATH"
+          export GRADLEW_PATH=$(find . -type f -name "gradlew" | head -n 1)
+          if [ -z "$GRADLEW_PATH" ]; then
+            echo "❌ ERRO: Arquivo gradlew não encontrado!"
+            exit 1
+          fi
+          echo "✅ gradlew encontrado em: $GRADLEW_PATH"
           chmod +x "$GRADLEW_PATH"
 
       - name: 🧹 Limpar projeto
         script: |
           echo "🧹 Executando clean..."
-          $GRADLEW_PATH clean
+          bash "$GRADLEW_PATH" clean
 
       - name: 📦 Build Release APK
         script: |
           echo "⚙️ Gerando APK de release..."
-          $GRADLEW_PATH assembleRelease
+          bash "$GRADLEW_PATH" assembleRelease
 
       - name: 📦 Build Release AAB
         script: |
           echo "⚙️ Gerando AAB de release..."
-          $GRADLEW_PATH bundleRelease
+          bash "$GRADLEW_PATH" bundleRelease
 
     artifacts:
       - app/build/outputs/apk/release/*.apk
