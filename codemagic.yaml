@@ -1,22 +1,23 @@
 workflows:
   android-native-release:
-    name: To Chegando Cliente - Build Release
-    instance_type: mac_mini_m1
+    name: Build Android Nativo - Codemagic
     max_build_duration: 60
-
     environment:
       vars:
-        JAVA_VERSION: 17
-        ANDROID_SDK_VERSION: 34
-        GRADLE_OPTS: "-Xmx4096m"
+        BUILD_DIR: android
+      cache:
+        cache_paths:
+          - ~/.gradle/caches
+          - ~/.gradle/wrapper
+      java: 17
 
     scripts:
-      - name: 🔍 Localizar gradlew automaticamente
+      - name: 🔍 Localizar Gradlew
         script: |
-          echo "🔎 Procurando o gradlew..."
-          export GRADLEW_PATH=$(find . -type f -name "gradlew" | head -n 1)
+          echo "Procurando arquivo gradlew..."
+          GRADLEW_PATH=$(find . -type f -name "gradlew" | head -n 1)
           if [ -z "$GRADLEW_PATH" ]; then
-            echo "❌ ERRO: Arquivo gradlew não encontrado!"
+            echo "❌ Nenhum arquivo gradlew encontrado!"
             exit 1
           fi
           echo "✅ gradlew encontrado em: $GRADLEW_PATH"
@@ -24,27 +25,19 @@ workflows:
 
       - name: 🧹 Limpar projeto
         script: |
-          echo "🧹 Executando clean..."
-          bash "$GRADLEW_PATH" clean
+          echo "Executando clean..."
+          ./$(find . -type f -name "gradlew" | head -n 1 | sed 's|^\./||') clean
 
-      - name: 📦 Build Release APK
+      - name: 🏗️ Compilar APK Release
         script: |
-          echo "⚙️ Gerando APK de release..."
-          bash "$GRADLEW_PATH" assembleRelease
-
-      - name: 📦 Build Release AAB
-        script: |
-          echo "⚙️ Gerando AAB de release..."
-          bash "$GRADLEW_PATH" bundleRelease
+          echo "Iniciando build release..."
+          ./$(find . -type f -name "gradlew" | head -n 1 | sed 's|^\./||') assembleRelease
 
     artifacts:
-      - app/build/outputs/apk/release/*.apk
-      - app/build/outputs/bundle/release/*.aab
+      - "**/build/outputs/**/*.apk"
+      - "**/build/outputs/**/*.aab"
 
     publishing:
       email:
         recipients:
-          - seuemail@dominio.com
-        notify:
-          success: true
-          failure: true
+          - seuemail@exemplo.com
