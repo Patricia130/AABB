@@ -6,9 +6,9 @@ workflows:
 
     environment:
       vars:
+        JAVA_VERSION: 17
+        ANDROID_SDK_VERSION: 34
         GRADLE_OPTS: "-Xmx4096m"
-      java: 17
-      sdk: 34
 
     scripts:
       - name: 🔍 Localizar gradlew automaticamente
