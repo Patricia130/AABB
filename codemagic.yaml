@@ -1,39 +1,43 @@
+# codemagic.yaml
+#
+# Configuração completa para build de um projeto Android Nativo no Codemagic.
+# Este workflow gera os artefatos APK e AAB em modo release.
+
 workflows:
   android-native-release:
-    name: Build Android Native Release
-    max_build_duration: 60
+    name: Tô Chegando Cliente - Build Release
     instance_type: mac_mini_m1
-
+    max_build_duration: 60
     environment:
-      vars:
-        JAVA_VERSION: 17
+      android_sdk_version: "34" # Use a versão do SDK do Android que seu projeto precisa
+      java_version: "17"       # Define a versão do Java para 17
 
     scripts:
-      - name: Configurar Java 17
-        script: |
-          export JAVA_HOME=$(/usr/libexec/java_home -v 17)
-          export PATH=$JAVA_HOME/bin:$PATH
-          echo "✅ Usando Java 17 em $JAVA_HOME"
-
-      - name: Dar permissão ao gradlew
-        script: |
+      - name: ⚙️ Configurar permissões do Gradle Wrapper
+        script: | 
+          echo "✅ Concedendo permissão de execução para o gradlew..."
           chmod +x ./gradlew
-          echo "✅ Permissão concedida ao gradlew"
 
-      - name: Limpar projeto
-        script: |
+      - name: 🧹 Limpar o projeto (Clean)
+        script: | 
+          echo "⚙️ Executando a tarefa 'clean' do Gradle..."
           ./gradlew clean
-          echo "🧹 Projeto limpo com sucesso"
 
-      - name: Compilar APK e AAB de release
-        script: |
+      - name: 📦 Gerar APK de Release
+        script: | 
+          echo "⚙️ Compilando e gerando o APK de release..."
           ./gradlew assembleRelease
+
+      - name: 📦 Gerar AAB de Release (Bundle)
+        script: | 
+          echo "⚙️ Compilando e gerando o AAB de release..."
           ./gradlew bundleRelease
-          echo "📦 Builds .apk e .aab gerados com sucesso"
 
     artifacts:
-      - app/build/outputs/**/*.apk
-      - app/build/outputs/**/*.aab
+      - name: "APK de Release"
+        path: app/build/outputs/apk/release/*.apk
+      - name: "AAB de Release"
+        path: app/build/outputs/bundle/release/*.aab
 
     publishing:
       email:

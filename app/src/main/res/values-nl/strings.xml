@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE resources [<!ENTITY appname "NewTaxi">]>
+<!DOCTYPE resources [<!ENTITY appname "Tô Chegando Cliente">]>
 
 <resources>
 
@@ -479,4 +479,3 @@
     <string name="you_are_viewing_old_data">U ziet gegevens offline, controleer uw netwerkverbinding</string>
     <string name="retry">Herhalen</string>
 </resources> 
-

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
  
-<!DOCTYPE resources [<!ENTITY appname "NewTaxi">]>
+<!DOCTYPE resources [<!ENTITY appname "Tô Chegando Cliente">]>
  
 <resources xmlns:tools="http://schemas.android.com/tools">
  
@@ -479,4 +479,3 @@
     <string name="you_are_viewing_old_data">Vous voyez des données hors ligne, vérifiez votre connexion réseau</string> 
     <string name="retry">Répéter</string> 
 </resources> 
-
