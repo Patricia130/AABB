@@ -23,7 +23,7 @@ android {
     buildToolsVersion '30.0.3'
 
     defaultConfig {
-        applicationId "com.seuprojeto.app"
+        applicationId "com.tochegando.cliente"
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
